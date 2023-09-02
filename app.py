@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/convert4', methods=['GET'])
 def convert4():
-    startTime = datetime.datetime.now()
+    startTime = datetime.now()
     #url = urlparse(request.args.get('urlB64'))
     url = base64.b64decode(request.args.get('urlB64'))
     print('Download URL: {}'.format(url), flush=True)
@@ -37,11 +37,11 @@ def convert4():
         f.write(response.content)
 
     # Run FFmpeg command to convert OGG to MP3
-    command = ['ffmpeg', '-i', ogg_file, mp3_file]
+    command = ['ffmpeg','-loglevel', 'error', '-i', ogg_file, mp3_file]
     subprocess.run(command)
 
 
-    endTime = datetime.datetime.now()
+    endTime = datetime.now()
     delta = int((endTime - startTime).total_seconds() * 1000)
     print('OGG -> MP3: {} - {} - {}'.format(ogg_file, mp3_file, delta), flush=True)
     # Return MP3 file
