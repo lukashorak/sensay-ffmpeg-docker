@@ -59,6 +59,33 @@ def convert2():
                      as_attachment=True,
                      download_name='output.mp3')
 
+@app.route('/convert3', methods=['GET'])
+def convert3():
+    url = request.args.get('url')
+    if not url:
+        return jsonify({'error': 'URL is required'}), 400
+    
+	# Getting the current date and time
+    dt = datetime.now().isoformat()
+    curr_time = round(time.time()*1000)	
+	
+    # Download file
+    ogg_file = 'input_'+str(curr_time)+'.ogg'
+    mp3_file = 'output_'+str(curr_time)+'.mp3'
+    
+    response = requests.get(url)
+    with open(ogg_file, 'wb') as f:
+        f.write(response.content)
+
+    # Run FFmpeg command to convert OGG to MP3
+    command = ['ffmpeg', '-i', ogg_file, mp3_file]
+    subprocess.run(command)
+
+    # Return MP3 file
+    return send_file(mp3_file,
+                     mimetype='audio/mpeg',
+                     as_attachment=True,
+                     download_name='output.mp3')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
