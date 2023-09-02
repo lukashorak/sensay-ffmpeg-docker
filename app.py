@@ -13,9 +13,9 @@ def convert():
     if not url:
         return jsonify({'error': 'URL is required'}), 400
 
-	# Getting the current date and time
+    # Getting the current date and time
     dt = datetime.now().isoformat()
-	
+    
     # Download file
     ogg_file = 'input'+str(dt)+'.ogg'
     mp3_file = 'output'+str(dt)+'.mp3'
@@ -40,7 +40,7 @@ def convert2():
     # Getting the current date and time
     dt = datetime.now().isoformat()
     curr_time = round(time.time()*1000)	
-	
+    
     # Download file
     ogg_file = 'input_'+str(curr_time)+'.ogg'
     mp3_file = 'output_'+str(curr_time)+'.mp3'
@@ -62,18 +62,23 @@ def convert2():
 @app.route('/convert3', methods=['GET'])
 def convert3():
     url = request.args.get('url')
+    print('Download URL: {}'.format(url))
     if not url:
         return jsonify({'error': 'URL is required'}), 400
     
-	# Getting the current date and time
+    
+    # Getting the current date and time
     dt = datetime.now().isoformat()
     curr_time = round(time.time()*1000)	
-	
+    
     # Download file
     ogg_file = 'input_'+str(curr_time)+'.ogg'
     mp3_file = 'output_'+str(curr_time)+'.mp3'
     
+    print('OGG -> MP3: {} - {}'.format(ogg_file, mp3_file))
+    
     response = requests.get(url)
+    print('Download code: {}'.format(response.status_code))
     with open(ogg_file, 'wb') as f:
         f.write(response.content)
 
