@@ -39,11 +39,11 @@ def convert2():
 
     # Getting the current date and time
     dt = datetime.now().isoformat()
-	curr_time = round(time.time()*1000)	
+    curr_time = round(time.time()*1000)	
 	
     # Download file
-    ogg_file = 'input_'+curr_time+'.ogg'
-    mp3_file = 'output_'+curr_time+'.mp3'
+    ogg_file = 'input_'+str(curr_time)+'.ogg'
+    mp3_file = 'output_'+str(curr_time)+'.mp3'
     
     response = requests.get(url)
     with open(ogg_file, 'wb') as f:
