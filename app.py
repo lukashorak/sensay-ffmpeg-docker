@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS, cross_origin
 from datetime import datetime
 from urllib.parse import urlparse
 import time
@@ -9,8 +10,11 @@ import base64
 
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+@cross_origin()
 @app.route('/convert4', methods=['GET'])
 def convert4():
     startTime = datetime.now()
